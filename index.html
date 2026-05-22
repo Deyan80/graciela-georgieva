@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="bg" data-theme="dark" data-lang="bg">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Грациела Георгиева</title>
+
+  <!-- ── Open Graph (Facebook share) – uses photo1.jpg ── -->
+  <meta property="og:title" content="Грациела Георгиева" />
+  <meta property="og:description" content="Семейството е домът на душата. Красотата е начин на живот." />
+  <meta property="og:image" content="photo1.jpg" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://github.com/gracielageorgieva" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ══════════════════════════════════════════════
+       DESIGN TOKENS
+    ══════════════════════════════════════════════ */
+    :root {
+      --gold:        #c9a96e;
+      --gold-lt:     #e2cfaa;
+      --gold-faint:  rgba(201,169,110,.10);
+      --gold-border: rgba(201,169,110,.22);
+
+      --bg:          #0b0906;
+      --bg2:         #100d09;
+      --bg3:         #171210;
+
+      --txt-h:       #f2ece2;
+      --txt-b:       #c8bca8;
+      --txt-m:       #7e7060;
+
+      --ease: cubic-bezier(.4,0,.2,1);
+      --ease-out: cubic-bezier(0,0,.2,1);
+    }
+    [data-theme="light"] {
+      --bg:          #f9f5ee;
+      --bg2:         #f1ebe0;
+      --bg3:         #e8e0d0;
+      --txt-h:       #18120a;
+      --txt-b:       #3e3222;
+      --txt-m:       #8a7a60;
+      --gold-faint:  rgba(180,130,50,.08);
+      --gold-border: rgba(160,110,30,.22);
+    }
+
+    /* ══════════════════════════════════════════════
+       BASE
+    ══════════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      letter-spacing: .03em;
+      background: var(--bg);
+      color: var(--txt-b);
+      overflow-x: hidden;
+      transition: background .55s var(--ease), color .55s var(--ease);
+      cursor: default;
+    }
+    img, video { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+
+    /* grain texture */
+    body::after {
+      content:'';
+      position: fixed; inset: 0; pointer-events: none; z-index: 9998;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='.045'/%3E%3C/svg%3E");
+      opacity: .5; mix-blend-mode: overlay;
+    }
+
+    /* ══════════════════════════════════════════════
+       CONTROLS  (top-right)
+    ══════════════════════════════════════════════ */
+    #controls {
+      position: fixed; top: 1.4rem; right: 1.4rem;
+      display: flex; gap: .6rem; z-index: 1000;
+    }
+    .ctrl {
+      display: flex; align-items: center; gap: .45rem;
+      padding: .42rem 1rem;
+      background: var(--bg2);
+      border: 1px solid var(--gold-border);
+      color: var(--gold);
+      font-family: 'Jost', sans-serif;
+      font-size: .62rem; font-weight: 400;
+      letter-spacing: .2em; text-transform: uppercase;
+      cursor: pointer;
+      transition: background .3s, border-color .3s, color .3s;
+    }
+    .ctrl:hover { background: var(--gold-faint); border-color: var(--gold); }
+    .ctrl svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+    /* ══════════════════════════════════════════════
+       HERO
+    ══════════════════════════════════════════════ */
+    #hero {
+      display: grid;
+      grid-template-columns: 45fr 55fr;
+      min-height: 100svh;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-img-col {
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-img-col img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      filter: brightness(.85) contrast(1.05) saturate(.85);
+      transform: scale(1.04);
+      transition: transform 10s var(--ease);
+    }
+    #hero:hover .hero-img-col img { transform: scale(1.0); }
+
+    /* fade to bg */
+    .hero-img-col::after {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(to right, rgba(11,9,6,0) 55%, var(--bg) 100%),
+        linear-gradient(to top,   var(--bg) 0%,  transparent 35%);
+      transition: background .55s var(--ease);
+    }
+    [data-theme="light"] .hero-img-col::after {
+      background:
+        linear-gradient(to right, rgba(249,245,238,0) 55%, var(--bg) 100%),
+        linear-gradient(to top,   var(--bg) 0%,  transparent 35%);
+    }
+
+    .hero-text-col {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8rem 5rem 5rem 3.5rem;
+      position: relative; z-index: 2;
+    }
+
+    .hero-eyebrow {
+      font-size: .6rem; letter-spacing: .36em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 1.8rem;
+      opacity: 0;
+      animation: rise .8s .2s var(--ease) forwards;
+    }
+    .hero-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.8rem, 4.5vw, 5.2rem);
+      font-weight: 300; line-height: 1.05;
+      color: var(--txt-h);
+      opacity: 0;
+      animation: rise .9s .4s var(--ease) forwards;
+    }
+    .hero-name em { font-style: italic; color: var(--gold); }
+
+    .hero-rule {
+      width: 3.5rem; height: 1px;
+      background: linear-gradient(to right, var(--gold), transparent);
+      margin: 2.2rem 0;
+      opacity: 0;
+      animation: rise .7s .6s var(--ease) forwards;
+    }
+
+    .hero-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1rem, 1.6vw, 1.45rem);
+      font-style: italic; font-weight: 300;
+      color: var(--gold-lt);
+      line-height: 1.65; max-width: 38ch;
+      opacity: 0;
+      animation: rise .9s .8s var(--ease) forwards;
+    }
+
+    .hero-cta {
+      display: flex; gap: 1rem; margin-top: 3rem;
+      opacity: 0;
+      animation: rise .8s 1s var(--ease) forwards;
+    }
+    .btn-primary {
+      padding: .75rem 2rem;
+      border: 1px solid var(--gold);
+      background: transparent;
+      color: var(--gold);
+      font-family: 'Jost', sans-serif;
+      font-size: .68rem; letter-spacing: .2em;
+      text-transform: uppercase; cursor: pointer;
+      transition: background .3s, color .3s;
+      display: inline-flex; align-items: center; gap: .5rem;
+    }
+    .btn-primary:hover { background: var(--gold); color: var(--bg); }
+    .btn-secondary {
+      padding: .75rem 2rem;
+      border: 1px solid var(--gold-border);
+      background: transparent;
+      color: var(--txt-m);
+      font-family: 'Jost', sans-serif;
+      font-size: .68rem; letter-spacing: .2em;
+      text-transform: uppercase; cursor: pointer;
+      transition: border-color .3s, color .3s;
+    }
+    .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* vertical scroller hint */
+    .scroll-hint {
+      position: absolute; bottom: 2.5rem; right: 5rem;
+      display: flex; flex-direction: column; align-items: center; gap: .5rem;
+      opacity: 0;
+      animation: rise .7s 1.3s var(--ease) forwards;
+      z-index: 2;
+    }
+    .scroll-hint span {
+      font-size: .54rem; letter-spacing: .3em;
+      text-transform: uppercase; color: var(--txt-m);
+      writing-mode: vertical-lr;
+    }
+    .scroll-line {
+      width: 1px; height: 3rem;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: scrollDrop 1.8s 1.5s var(--ease-out) infinite;
+    }
+
+    /* ══════════════════════════════════════════════
+       ABOUT
+    ══════════════════════════════════════════════ */
+    #about {
+      background: var(--bg2);
+      padding: 7rem 7%;
+      transition: background .55s var(--ease);
+    }
+    .about-inner {
+      display: grid;
+      grid-template-columns: 1fr 1px 1fr;
+      gap: 0 5rem;
+      align-items: start;
+      max-width: 1200px; margin: 0 auto;
+    }
+    .section-label {
+      font-size: .58rem; letter-spacing: .35em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 1rem;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.9rem, 3vw, 3rem);
+      font-weight: 300; line-height: 1.18;
+      color: var(--txt-h); margin-bottom: 2.5rem;
+    }
+    .section-title em { font-style: italic; color: var(--gold); }
+
+    .about-body p {
+      font-size: .97rem; line-height: 1.95;
+      color: var(--txt-b); margin-bottom: 1.3rem;
+    }
+    .about-body p:last-child { margin: 0; }
+
+    .about-divider { width: 1px; background: var(--gold-border); }
+
+    .about-quote-side { padding-top: .5rem; }
+    .about-quote-side blockquote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.35rem, 2vw, 1.85rem);
+      font-style: italic; font-weight: 300;
+      color: var(--gold-lt); line-height: 1.55;
+      border-left: 2px solid var(--gold);
+      padding-left: 1.8rem; margin-bottom: 2rem;
+    }
+    .about-stats {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1.6rem 2rem; margin-top: 1rem;
+    }
+    .stat { border-top: 1px solid var(--gold-border); padding-top: 1rem; }
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem; font-weight: 300;
+      color: var(--gold); line-height: 1;
+      margin-bottom: .3rem;
+    }
+    .stat-label {
+      font-size: .62rem; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--txt-m);
+    }
+
+    /* ══════════════════════════════════════════════
+       GALLERY
+    ══════════════════════════════════════════════ */
+    #gallery {
+      padding: 7rem 5%;
+      background: var(--bg);
+      transition: background .55s var(--ease);
+    }
+    .gallery-header {
+      max-width: 1200px; margin: 0 auto 3.5rem;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr 1fr 1.3fr;
+      gap: 1rem;
+      max-width: 1300px; margin: 0 auto;
+      align-items: start;
+    }
+    .gallery-item {
+      position: relative; overflow: hidden;
+      background: var(--bg3);
+    }
+    /* stagger heights for editorial feel */
+    .gallery-item:nth-child(1) { grid-row: span 2; }
+    .gallery-item:nth-child(4) { grid-row: span 2; }
+
+    .gallery-item img {
+      width: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+      filter: brightness(.9) saturate(.85);
+      transition: transform .9s var(--ease), filter .6s var(--ease);
+    }
+    /* tall items – show full portrait */
+    .gallery-item:nth-child(1) img,
+    .gallery-item:nth-child(4) img { height: 680px; }
+    .gallery-item:nth-child(2) img,
+    .gallery-item:nth-child(3) img { height: 330px; }
+
+    .gallery-item:hover img {
+      transform: scale(1.04);
+      filter: brightness(.95) saturate(1);
+    }
+    .gallery-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,.55) 0%, transparent 55%);
+      opacity: 0; transition: opacity .5s;
+    }
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+    .gallery-caption {
+      position: absolute; bottom: 1.2rem; left: 1.4rem;
+      font-size: .6rem; letter-spacing: .22em;
+      text-transform: uppercase; color: rgba(255,255,255,.75);
+      transform: translateY(.4rem);
+      transition: transform .4s var(--ease), opacity .4s;
+      opacity: 0;
+    }
+    .gallery-item:hover .gallery-caption { opacity: 1; transform: translateY(0); }
+
+    /* ══════════════════════════════════════════════
+       VIDEO SECTION
+    ══════════════════════════════════════════════ */
+    #videos {
+      background: var(--bg2);
+      padding: 7rem 5%;
+      transition: background .55s var(--ease);
+    }
+    .videos-header {
+      max-width: 1200px; margin: 0 auto 3.5rem;
+    }
+    .videos-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      max-width: 1300px; margin: 0 auto 1rem;
+    }
+    .videos-grid-bottom {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      max-width: 1300px; margin: 0 auto;
+    }
+    .video-card {
+      position: relative;
+      background: var(--bg3);
+      overflow: hidden;
+    }
+    .video-card video {
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+      display: block;
+      transition: filter .5s;
+    }
+    .videos-grid-bottom .video-card video { height: 360px; }
+    .video-card:hover video { filter: brightness(1.05); }
+    .video-num {
+      position: absolute; top: 1rem; left: 1.2rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem; font-style: italic;
+      color: rgba(201,169,110,.45); line-height: 1;
+      pointer-events: none;
+    }
+
+    /* ══════════════════════════════════════════════
+       PHILOSOPHY / QUOTE BANNER
+    ══════════════════════════════════════════════ */
+    #philosophy {
+      padding: 8rem 7%;
+      background: var(--bg);
+      transition: background .55s var(--ease);
+    }
+    .philosophy-inner {
+      max-width: 900px; margin: 0 auto; text-align: center;
+    }
+    .big-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.7rem, 3.2vw, 3rem);
+      font-weight: 300; font-style: italic;
+      color: var(--txt-h); line-height: 1.45;
+      margin-bottom: 2.5rem;
+    }
+    .big-quote em { color: var(--gold); }
+    .philosophy-rule {
+      width: 4rem; height: 1px;
+      background: var(--gold);
+      margin: 0 auto 2rem;
+    }
+    .philosophy-sub {
+      font-size: .88rem; line-height: 1.9;
+      color: var(--txt-m); max-width: 56ch; margin: 0 auto;
+    }
+
+    /* ══════════════════════════════════════════════
+       CONTACT / FOOTER
+    ══════════════════════════════════════════════ */
+    #contact {
+      background: var(--bg2);
+      padding: 7rem 7% 5rem;
+      transition: background .55s var(--ease);
+    }
+    .contact-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 5rem; align-items: start;
+    }
+    .contact-left .section-title { margin-bottom: 1.5rem; }
+    .contact-desc {
+      font-size: .95rem; line-height: 1.85;
+      color: var(--txt-b); margin-bottom: 2.5rem;
+    }
+    .social-links { display: flex; flex-direction: column; gap: .9rem; }
+    .social-link {
+      display: flex; align-items: center; gap: 1rem;
+      padding: .9rem 1.3rem;
+      border: 1px solid var(--gold-border);
+      color: var(--txt-b);
+      transition: border-color .3s, color .3s, background .3s;
+    }
+    .social-link:hover {
+      border-color: var(--gold); color: var(--gold);
+      background: var(--gold-faint);
+    }
+    .social-link svg { width: 18px; height: 18px; flex-shrink: 0; }
+    .social-link-label { font-size: .72rem; letter-spacing: .15em; text-transform: uppercase; }
+    .social-link-url { font-size: .8rem; color: var(--txt-m); margin-left: auto; }
+
+    .contact-right blockquote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.3rem, 2vw, 1.9rem);
+      font-style: italic; font-weight: 300;
+      color: var(--gold-lt); line-height: 1.55;
+      border-left: 2px solid var(--gold);
+      padding-left: 1.8rem; margin-bottom: 2rem;
+    }
+    .contact-right p {
+      font-size: .88rem; line-height: 1.9;
+      color: var(--txt-m);
+    }
+
+    footer {
+      background: var(--bg);
+      padding: 2rem 7%;
+      border-top: 1px solid var(--gold-border);
+      display: flex; align-items: center;
+      justify-content: space-between;
+      gap: 1rem; flex-wrap: wrap;
+      transition: background .55s var(--ease);
+    }
+    .footer-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem; font-style: italic;
+      color: var(--gold);
+    }
+    .footer-copy { font-size: .62rem; letter-spacing: .15em; color: var(--txt-m); }
+
+    /* ══════════════════════════════════════════════
+       ANIMATIONS
+    ══════════════════════════════════════════════ */
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes scrollDrop {
+      0%   { transform: scaleY(0); transform-origin: top; }
+      50%  { transform: scaleY(1); transform-origin: top; }
+      51%  { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+
+    /* ══════════════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════════════ */
+    @media (max-width: 960px) {
+      #hero { grid-template-columns: 1fr; }
+      .hero-img-col { height: 55svh; }
+      .hero-img-col::after {
+        background:
+          linear-gradient(to bottom, transparent 60%, var(--bg) 100%);
+      }
+      [data-theme="light"] .hero-img-col::after {
+        background:
+          linear-gradient(to bottom, transparent 60%, var(--bg) 100%);
+      }
+      .hero-text-col { padding: 3rem 6%; }
+      .about-inner { grid-template-columns: 1fr; }
+      .about-divider { display: none; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-item:nth-child(1),
+      .gallery-item:nth-child(4) { grid-row: span 1; }
+      .gallery-item:nth-child(1) img,
+      .gallery-item:nth-child(4) img { height: 400px; }
+      .videos-grid { grid-template-columns: 1fr 1fr; }
+      .videos-grid-bottom { grid-template-columns: 1fr; }
+      .contact-inner { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .gallery-grid { grid-template-columns: 1fr; }
+      .videos-grid { grid-template-columns: 1fr; }
+      #controls { top: .8rem; right: .8rem; gap: .4rem; }
+      .ctrl { padding: .38rem .7rem; font-size: .56rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══ CONTROLS ══════════════════════════════════════════ -->
+  <div id="controls">
+    <button class="ctrl" onclick="toggleTheme()" aria-label="Toggle theme">
+      <svg id="theme-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+        <path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/>
+      </svg>
+      <span id="theme-label">Светла</span>
+    </button>
+    <button class="ctrl" onclick="toggleLang()" aria-label="Toggle language">
+      <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+        <path d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 01-3.827-5.802"/>
+      </svg>
+      <span id="lang-label">EN</span>
+    </button>
+  </div>
+
+  <!-- ══ HERO ══════════════════════════════════════════════ -->
+  <section id="hero">
+    <div class="hero-img-col">
+      <!-- PHOTO 1 — also used for Facebook OG share -->
+      <img src="photo1.jpg" alt="Грациела Георгиева" />
+    </div>
+
+    <div class="hero-text-col">
+      <p class="hero-eyebrow" data-bg="Модел &amp; Личност" data-en="Model &amp; Personality">Модел &amp; Личност</p>
+      <h1 class="hero-name"><em>Грациела</em><br>Георгиева</h1>
+      <div class="hero-rule"></div>
+      <p class="hero-tagline" data-bg="Семейството е домът на душата. Красотата е начин на живот." data-en="Family is the home of the soul. Beauty is a way of life.">
+        Семейството е домът на душата. Красотата е начин на живот.
+      </p>
+      <div class="hero-cta">
+        <a href="#gallery" class="btn-primary" data-bg="Галерия" data-en="Gallery">Галерия</a>
+        <a href="#contact" class="btn-secondary" data-bg="Контакти" data-en="Contact">Контакти</a>
+      </div>
+    </div>
+
+    <div class="scroll-hint">
+      <span data-bg="Превъртете" data-en="Scroll">Превъртете</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ══ ABOUT ══════════════════════════════════════════════ -->
+  <section id="about">
+    <div class="about-inner">
+      <div class="about-body">
+        <p class="section-label" data-bg="За мен" data-en="About Me">За мен</p>
+        <h2 class="section-title" data-bg="Живот, изпълнен с <em>грация</em> и смисъл" data-en="A life filled with <em>grace</em> and meaning">
+          Живот, изпълнен с <em>грация</em> и смисъл
+        </h2>
+        <p data-bg="Вярвам, че истинската красота не живее в огледалото — тя живее в начина, по който прегръщаш хората, които обичаш, в усмивката, с която посрещаш всеки нов ден, и в спокойствието, което носиш в сърцето си, дори когато светът около теб се върти." data-en="I believe true beauty does not live in the mirror — it lives in the way you embrace those you love, in the smile with which you greet each new day, and in the calm you carry in your heart, even when the world around you spins.">
+          Вярвам, че истинската красота не живее в огледалото — тя живее в начина, по който прегръщаш хората, които обичаш, в усмивката, с която посрещаш всеки нов ден, и в спокойствието, което носиш в сърцето си, дори когато светът около теб се върти.
+        </p>
+        <p data-bg="Семейството ми е моят свят. То ме заземя, дава ми сили и ми напомня за всичко, което наистина има значение. В него намирам своя ритъм — между нежността и силата, между грижата и свободата." data-en="My family is my world. It grounds me, gives me strength and reminds me of everything that truly matters. In it I find my rhythm — between tenderness and strength, between care and freedom.">
+          Семейството ми е моят свят. То ме заземя, дава ми сили и ми напомня за всичко, което наистина има значение. В него намирам своя ритъм — между нежността и силата, между грижата и свободата.
+        </p>
+        <p data-bg="Красотата, за мен, е ежедневна практика — не само на тялото, но и на духа. Грижата за себе си е уважение към живота, който ти е подарен." data-en="Beauty, for me, is a daily practice — not only of the body, but of the spirit. Self-care is respect for the life you have been given.">
+          Красотата, за мен, е ежедневна практика — не само на тялото, но и на духа. Грижата за себе си е уважение към живота, който ти е подарен.
+        </p>
+      </div>
+
+      <div class="about-divider"></div>
+
+      <div class="about-quote-side">
+        <blockquote data-bg="&ldquo;Обичам живота в пълнота — с цялата му нежност, хаос и неочаквана красота.&rdquo;" data-en="&ldquo;I love life in its fullness — with all its tenderness, chaos and unexpected beauty.&rdquo;">
+          &ldquo;Обичам живота в пълнота — с цялата му нежност, хаос и неочаквана красота.&rdquo;
+        </blockquote>
+        <div class="about-stats">
+          <div class="stat">
+            <div class="stat-num">∞</div>
+            <div class="stat-label" data-bg="Любов към семейството" data-en="Love for family">Любов към семейството</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">365</div>
+            <div class="stat-label" data-bg="Дни красота на ден" data-en="Days of beauty a year">Дни красота на ден</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">I</div>
+            <div class="stat-label" data-bg="Уникална личност" data-en="Unique personality">Уникална личност</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">♥</div>
+            <div class="stat-label" data-bg="Живот с грация" data-en="Life with grace">Живот с грация</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ GALLERY ════════════════════════════════════════════ -->
+  <section id="gallery">
+    <div class="gallery-header">
+      <p class="section-label" data-bg="Галерия" data-en="Gallery">Галерия</p>
+      <h2 class="section-title" data-bg="Моменти от <em>красивия</em> живот" data-en="Moments from a <em>beautiful</em> life">
+        Моменти от <em>красивия</em> живот
+      </h2>
+    </div>
+
+    <div class="gallery-grid">
+      <!-- photo1.jpg — tall, used also for OG share -->
+      <div class="gallery-item">
+        <img src="photo1.jpg" alt="Грациела Георгиева" loading="lazy" />
+        <div class="gallery-overlay"></div>
+        <span class="gallery-caption" data-bg="Портрет" data-en="Portrait">Портрет</span>
+      </div>
+      <!-- photo2.jpg -->
+      <div class="gallery-item">
+        <img src="photo2.jpg" alt="Грациела Георгиева" loading="lazy" />
+        <div class="gallery-overlay"></div>
+        <span class="gallery-caption" data-bg="Елегантност" data-en="Elegance">Елегантност</span>
+      </div>
+      <!-- photo3.jpg -->
+      <div class="gallery-item">
+        <img src="photo3.jpg" alt="Грациела Георгиева" loading="lazy" />
+        <div class="gallery-overlay"></div>
+        <span class="gallery-caption" data-bg="Светлина" data-en="Light">Светлина</span>
+      </div>
+      <!-- photo4.jpg — tall -->
+      <div class="gallery-item">
+        <img src="photo4.jpg" alt="Грациела Георгиева" loading="lazy" />
+        <div class="gallery-overlay"></div>
+        <span class="gallery-caption" data-bg="Стил" data-en="Style">Стил</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ PHILOSOPHY ══════════════════════════════════════════ -->
+  <section id="philosophy">
+    <div class="philosophy-inner">
+      <p class="section-label" data-bg="Философия" data-en="Philosophy">Философия</p>
+      <div class="philosophy-rule"></div>
+      <p class="big-quote" data-bg="Истинският лукс не е в нещата, които притежаваш — той е в <em>качеството на мига</em>, в грижата към близките и в <em>любовта</em>, с която живееш всеки ден." data-en="True luxury is not in the things you own — it is in the <em>quality of the moment</em>, in the care for those close to you and in the <em>love</em> with which you live every day.">
+        Истинският лукс не е в нещата, които притежаваш — той е в <em>качеството на мига</em>, в грижата към близките и в <em>любовта</em>, с която живееш всеки ден.
+      </p>
+      <p class="philosophy-sub" data-bg="Красотата е енергия. Тя се усеща, преди да се види. Тя извира от хората, които живеят пълноценно, обичат безрезервно и се грижат за душата си с толкова внимание, с колкото и за тялото." data-en="Beauty is energy. It is felt before it is seen. It springs from people who live fully, love unconditionally and care for their soul with as much attention as they do for their body.">
+        Красотата е енергия. Тя се усеща, преди да се види. Тя извира от хората, които живеят пълноценно, обичат безрезервно и се грижат за душата си с толкова внимание, с колкото и за тялото.
+      </p>
+    </div>
+  </section>
+
+  <!-- ══ VIDEOS ══════════════════════════════════════════════ -->
+  <section id="videos">
+    <div class="videos-header">
+      <p class="section-label" data-bg="Видеа" data-en="Videos">Видеа</p>
+      <h2 class="section-title" data-bg="В движение, с <em>грация</em>" data-en="In motion, with <em>grace</em>">
+        В движение, с <em>грация</em>
+      </h2>
+    </div>
+
+    <!-- Row 1: 3 videos -->
+    <div class="videos-grid">
+      <div class="video-card">
+        <span class="video-num">01</span>
+        <video src="video1.mp4" controls preload="metadata" poster="photo1.jpg"></video>
+      </div>
+      <div class="video-card">
+        <span class="video-num">02</span>
+        <video src="video2.mp4" controls preload="metadata" poster="photo2.jpg"></video>
+      </div>
+      <div class="video-card">
+        <span class="video-num">03</span>
+        <video src="video3.mp4" controls preload="metadata" poster="photo3.jpg"></video>
+      </div>
+    </div>
+
+    <!-- Row 2: 2 videos -->
+    <div class="videos-grid-bottom" style="margin-top:1rem;">
+      <div class="video-card">
+        <span class="video-num">04</span>
+        <video src="video4.mp4" controls preload="metadata" poster="photo4.jpg"></video>
+      </div>
+      <div class="video-card">
+        <span class="video-num">05</span>
+        <video src="video5.mp4" controls preload="metadata" poster="photo1.jpg"></video>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ CONTACT ════════════════════════════════════════════ -->
+  <section id="contact">
+    <div class="contact-inner">
+      <div class="contact-left">
+        <p class="section-label" data-bg="Контакти" data-en="Contact">Контакти</p>
+        <h2 class="section-title" data-bg="Нека се <em>свържем</em>" data-en="Let's <em>connect</em>">
+          Нека се <em>свържем</em>
+        </h2>
+        <p class="contact-desc" data-bg="Следвайте ме в социалните мрежи, за да споделим повече красиви мигове заедно." data-en="Follow me on social media so we can share more beautiful moments together.">
+          Следвайте ме в социалните мрежи, за да споделим повече красиви мигове заедно.
+        </p>
+        <div class="social-links">
+
+          <!-- Facebook -->
+          <a href="https://www.facebook.com/georgieva.graciq" target="_blank" rel="noopener" class="social-link">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878V14.89h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/>
+            </svg>
+            <span class="social-link-label">Facebook</span>
+            <span class="social-link-url">georgieva.graciq</span>
+          </a>
+
+          <!-- GitHub -->
+          <a href="https://github.com" target="_blank" rel="noopener" class="social-link">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+            </svg>
+            <span class="social-link-label">GitHub</span>
+            <span class="social-link-url">gracielageorgieva</span>
+          </a>
+
+        </div>
+      </div>
+
+      <div class="contact-right">
+        <blockquote data-bg="&ldquo;Животът е кратък, за да го живееш наполовина. Избирам пълнота — в любовта, в красотата, в присъствието.&rdquo;" data-en="&ldquo;Life is too short to live it halfway. I choose fullness — in love, in beauty, in presence.&rdquo;">
+          &ldquo;Животът е кратък, за да го живееш наполовина. Избирам пълнота — в любовта, в красотата, в присъствието.&rdquo;
+        </blockquote>
+        <p data-bg="Грациела Георгиева — жена, майка, личност. Живот с грация, обич и смисъл." data-en="Graziela Georgieva — woman, mother, personality. A life of grace, love and meaning.">
+          Грациела Георгиева — жена, майка, личност. Живот с грация, обич и смисъл.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ FOOTER ═════════════════════════════════════════════ -->
+  <footer>
+    <span class="footer-name">Грациела Георгиева</span>
+    <span class="footer-copy" data-bg="© 2025 · Всички права запазени" data-en="© 2025 · All rights reserved">© 2025 · Всички права запазени</span>
+  </footer>
+
+  <!-- ══ SCRIPTS ════════════════════════════════════════════ -->
+  <script>
+    /* ── Theme ───────────────────────────────────────────── */
+    const html = document.documentElement;
+    const themeLabel = document.getElementById('theme-label');
+    const themeIcon  = document.getElementById('theme-icon');
+
+    const SUN_PATH  = 'M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z';
+    const MOON_PATH = 'M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z';
+
+    function setThemeIcon(dark) {
+      themeIcon.querySelector('path').setAttribute('d', dark ? SUN_PATH : MOON_PATH);
+    }
+
+    function toggleTheme() {
+      const isDark = html.getAttribute('data-theme') === 'dark';
+      html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      const isNowDark = !isDark;
+      themeLabel.textContent = currentLang === 'bg'
+        ? (isNowDark ? 'Светла' : 'Тъмна')
+        : (isNowDark ? 'Light'  : 'Dark');
+      setThemeIcon(isNowDark);
+    }
+    setThemeIcon(true);
+
+    /* ── Language ────────────────────────────────────────── */
+    let currentLang = 'bg';
+
+    function toggleLang() {
+      currentLang = currentLang === 'bg' ? 'en' : 'bg';
+      document.getElementById('lang-label').textContent = currentLang === 'bg' ? 'EN' : 'BG';
+
+      // Update theme button label too
+      const isDark = html.getAttribute('data-theme') === 'dark';
+      themeLabel.textContent = currentLang === 'bg'
+        ? (isDark ? 'Светла' : 'Тъмна')
+        : (isDark ? 'Light'  : 'Dark');
+
+      // Translate all elements with data-bg / data-en
+      document.querySelectorAll('[data-bg][data-en]').forEach(el => {
+        const text = el.getAttribute('data-' + currentLang);
+        if (text) el.innerHTML = text;
+      });
+    }
+  </script>
+</body>
+</html>
